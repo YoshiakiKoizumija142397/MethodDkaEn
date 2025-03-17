@@ -5,9 +5,9 @@ MethodDkaEn.html
 
 JavaScript
 
-Supported OS (Windows 11 Home 24H2, iOS, Android)
+Supported OS (Windows 11 Home 24H2,Windows 10 home 22H2, iOS, Android)
 
-Prototype Evaluation Version 2.01
+Prototype Evaluation Version 3.00
 
 1st-order equations are taught in the first year of junior high school, and 2nd-order equations are taught in the third year of junior high school. For 3rd-order equations and higher, you can use Cardano's formula or numerical analysis methods such as Lagrange's method or Newton's method. However, for 4th-order equations and higher, you must rely on numerical analysis unless the equation is special.
 
@@ -17,7 +17,7 @@ First, enter the highest degree in the text box. Input boxes will open, so pleas
 
 As a general rule, if the coefficient is plus 1, enter 1, and if it is minus 1, enter -1.
 
-The significant figures of the solutions are about 7 digits. Even if more digits are displayed, they are not meaningful, so please be aware of this. Using this program as the initial value for a program that seeks higher precision solutions will yield good results! (Generally, 7 digits are sufficient for practical purposes.)
+The significant figures of the solutions are about 14 digits. Even if more digits are displayed, they are not meaningful, so please be aware of this. Using this program as the initial value for a program that seeks higher precision solutions will yield good results! 
 
 We are not responsible for any problems that arise from using this program. Please use it at your own risk (verify the calculations yourself before using).
 
