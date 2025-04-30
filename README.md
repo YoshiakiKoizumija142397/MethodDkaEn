@@ -1,30 +1,51 @@
-# MethodDkaEn
-Solving Higher-Order Algebraic Equations
+MethodDka 
 
-MethodDkaEn.html
+A program for solving high-degree algebraic equations
+
+MethodDka.html
 
 JavaScript
 
-Supported OS (Windows 11 Home 24H2,Windows 10 home 22H2, iOS, Android)
+Supported Operating Systems: Windows 11 Home 24H2, Android 15
 
-Prototype Evaluation Version 3.00
+MIT License
 
-1st-order equations are taught in the first year of junior high school, and 2nd-order equations are taught in the third year of junior high school. For 3rd-order equations and higher, you can use Cardano's formula or numerical analysis methods such as Lagrange's method or Newton's method. However, for 4th-order equations and higher, you must rely on numerical analysis unless the equation is special.
+Prototype Evaluation Version 4.00
 
-Most programs require initial values or can only find real solutions. However, this program can find all solutions, including complex numbers, for higher-order equations (up to 1000th order) without initial values.
+Linear equations (1st degree) can be solved in the first year of middle school, Quadratic equations (2nd degree) can be solved in the third year of middle school.
 
-First, enter the highest degree in the text box. Input boxes will open, so please enter the real coefficients in order from the highest degree. The coefficients of the entered degrees will be displayed. If there is no coefficient for a degree, enter 0 (zero). You cannot omit any coefficients!
+Equations of 3rd degree or higher can be solved using Cardano’s formula, or through numerical analysis methods such as Lagrange’s method or Newton's method.
 
-As a general rule, if the coefficient is plus 1, enter 1, and if it is minus 1, enter -1.
+For equations of 4th degree or higher, except for special cases, numerical analysis is required.
 
-The significant figures of the solutions are about 14 digits. Even if more digits are displayed, they are not meaningful, so please be aware of this. Using this program as the initial value for a program that seeks higher precision solutions will yield good results! 
+Most ordinary programs require initial values or can only find real-number solutions.
 
-We are not responsible for any problems that arise from using this program. Please use it at your own risk (verify the calculations yourself before using).
+However, this program can determine all solutions (including complex numbers) for high-degree equations (up to the 1000th degree) without requiring initial values.
 
-Thank you for reading the help file to the end! We hope this program will be useful to you.
+Download the MethodDka.html file from GitHub to your local OS (Windows 11 or Android device), open it in a browser (Edge or Chrome), and execute the script to solve high-degree algebraic equations or factorize them.
 
-Finally, I would like to thank my teachers who taught me arithmetic and mathematics, and the authors of books on numerical analysis!
+First, enter the highest degree in the text box.
 
-This software is a free software as it is a prototype evaluation version.
+An input box will open; enter the coefficients of the real numbers sequentially from the highest degree.
 
-This program was converted from my Android Java source code to JavaScript by Microsoft's Windows Copilot in Microsoft Edge. Thank you, Microsoft!
+The coefficients for the entered degree will be displayed.
+
+If a specific degree is missing, enter 0 as its coefficient—this cannot be omitted!
+
+For coefficients of +1, input 1; for -1, input -1.
+
+The number of significant figures for solutions is approximately 15 digits. Even if more digits are displayed, they have no meaning, so please be careful!
+
+This program may yield excellent results if used as an initial value for programs aiming for higher-precision solutions!
+
+The author is not responsible for any issues arising from the use of this program. Use it at your own risk (verify the results yourself before using).
+
+Thank you for reading this help file to the end! I would be honored if this program could be helpful to you.
+
+Finally, I extend my gratitude to the teachers who taught me arithmetic and mathematics, and the authors of numerical analysis books!
+
+Since this software is a prototype evaluation version, it is distributed as free software.
+
+This program was created by converting my Android Java source code into JavaScript with the assistance of Microsoft Edge’s Windows Copilot.
+
+Thank you, Microsoft!
