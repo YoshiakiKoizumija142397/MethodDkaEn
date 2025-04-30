@@ -1,8 +1,8 @@
-MethodDka 
+MethodDkaEn
 
 A program for solving high-degree algebraic equations
 
-MethodDka.html
+MethodDkaEn.html
 
 JavaScript
 
@@ -22,7 +22,7 @@ Most ordinary programs require initial values or can only find real-number solut
 
 However, this program can determine all solutions (including complex numbers) for high-degree equations (up to the 1000th degree) without requiring initial values.
 
-Download the MethodDka.html file from GitHub to your local OS (Windows 11 or Android device), open it in a browser (Edge or Chrome), and execute the script to solve high-degree algebraic equations or factorize them.
+Download the MethodDkaEn.html file from GitHub to your local OS (Windows 11 or Android device), open it in a browser (Edge or Chrome), and execute the script to solve high-degree algebraic equations or factorize them.
 
 First, enter the highest degree in the text box.
 
