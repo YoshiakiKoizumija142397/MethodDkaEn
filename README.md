@@ -49,3 +49,41 @@ Since this software is a prototype evaluation version, it is distributed as free
 This program was created by converting my Android Java source code into JavaScript with the assistance of Microsoft Edge’s Windows Copilot.
 
 Thank you, Microsoft!
+
+
+
+
+
+---
+
+There are several typical factors that can cause the DKA method (Durand-Kerner-Aberth method) to fail to converge or to converge poorly. For someone well-versed in numerical analysis like Yoshifumi-san, the following points may be particularly noteworthy:
+
+⚠️ Common Causes of Non-Convergence or Poor Convergence
+
+- **Inappropriate selection of initial values**  
+  Since the DKA method is based on the Newton method, convergence becomes difficult if the initial values are not close to the actual roots.  
+  Especially when multiple roots (duplicate solutions) exist, having initial values too close together can cause denominators to approach zero, leading to numerical instability.
+
+- **Presence of multiple or closely spaced roots**  
+  Because the DKA method simultaneously solves for all roots, closely spaced roots can strongly interact, slowing or even preventing convergence.
+
+- **Extreme values in polynomial coefficients**  
+  Large variations in coefficient scaling can lead to inaccurate radius estimation for initial values, thus affecting convergence.
+
+- **Inadequate iteration count or tolerance settings**  
+  If the tolerance is too large, it may appear to converge while lacking precision; if too small, an excessive number of iterations may be needed to achieve convergence.
+
+- **Numerical rounding errors and computational precision limits**  
+  Especially in complex number calculations, rounding errors tend to accumulate, destabilizing the convergence criteria.
+
+🛠️ Tips for Improvement
+
+- Using Aberth's initial values has been shown to significantly improve convergence behavior.
+
+- When dealing with closely spaced roots, combining with other methods (e.g. Jenkins-Traub algorithm or complex plane subdivision methods) may be helpful.
+
+- Scaling or normalizing the coefficients can improve numerical stability.
+
+---
+
+
