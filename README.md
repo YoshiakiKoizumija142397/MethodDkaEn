@@ -1,89 +1,65 @@
-MethodDkaEn
 
-A program for solving high-degree algebraic equations
+### MethodDka  
+A program for factoring and solving high-degree algebraic equations  
+High-precision version: 50 digits  
+Filename: `MethodDkaEn.html`  
+Language: JavaScript  
+Supported OS: Windows 11 Home 25H2, Android 15  
+License: MIT  
+Author: Yoshiaki Koizumi  
+Email: ja142397@s6.dion.ne.jp  
+Prototype evaluation version: 6.00
 
-MethodDkaEn.html
+- First-degree equations are solved by first-year middle school students  
+- Second-degree equations by third-year middle school students  
+- Third-degree equations or higher can be solved by Cardano’s formula or numerical analysis using Lagrange’s or Newton’s methods  
+- Fourth-degree equations and beyond generally require numerical methods unless they are of a special form  
 
-JavaScript
+Unlike conventional programs that require initial values or only find real solutions,  
+this program finds *all* solutions, including complex roots, for real-coefficient equations up to the 1000th degree — **without any initial values** required.
 
-Supported Operating Systems: Windows 11 Home 24H2, Android 15
+You can download the `MethodDkaEn.html` file from GitHub onto a Windows 11 or Android device and open it in Edge or Chrome.  
+The script will execute, allowing you to factor and solve high-degree algebraic equations.
 
-MIT License
+**How to use:**  
+1. Enter the highest degree in the text box  
+2. Input the coefficients (real numbers) in descending order of degree  
+3. The entered coefficients will be displayed  
+Note: Enter 0 for any degrees that do not appear — skipping is not allowed!  
+Also, for coefficients of +1 or –1, enter 1 or –1 explicitly.
 
-Prototype Evaluation Version 4.00
+The number of significant digits for solutions is approximately 50.
 
-Linear equations (1st degree) can be solved in the first year of middle school, Quadratic equations (2nd degree) can be solved in the third year of middle school.
+**Disclaimer:**  
+The author assumes no responsibility for any problems arising from use of this program.  
+Use it at your own risk and verify calculations yourself.  
+Thank you for reading the help file to the end!  
+I’m honored if this program proves useful to you.  
+Now upgraded to a fully Japanese-language version.
 
-Equations of 3rd degree or higher can be solved using Cardano’s formula, or through numerical analysis methods such as Lagrange’s method or Newton's method.
+Finally, I extend gratitude to my mentors who taught me math and arithmetic, and the authors of numerical analysis books that helped shape this work.
 
-For equations of 4th degree or higher, except for special cases, numerical analysis is required.
+As this is a prototype evaluation version, it is distributed as free software.
 
-Most ordinary programs require initial values or can only find real-number solutions.
-
-However, this program can determine all solutions (including complex numbers) for high-degree equations (up to the 1000th degree) without requiring initial values.
-
-Download the MethodDkaEn.html file from GitHub to your local OS (Windows 11 or Android device), open it in a browser (Edge or Chrome), and execute the script to solve high-degree algebraic equations or factorize them.
-
-First, enter the highest degree in the text box.
-
-An input box will open; enter the coefficients of the real numbers sequentially from the highest degree.
-
-The coefficients for the entered degree will be displayed.
-
-If a specific degree is missing, enter 0 as its coefficient—this cannot be omitted!
-
-For coefficients of +1, input 1; for -1, input -1.
-
-The number of significant figures for solutions is approximately 15 digits. Even if more digits are displayed, they have no meaning, so please be careful!
-
-This program may yield excellent results if used as an initial value for programs aiming for higher-precision solutions!
-
-The author is not responsible for any issues arising from the use of this program. Use it at your own risk (verify the results yourself before using).
-
-Thank you for reading this help file to the end! I would be honored if this program could be helpful to you.
-
-Finally, I extend my gratitude to the teachers who taught me arithmetic and mathematics, and the authors of numerical analysis books!
-
-Since this software is a prototype evaluation version, it is distributed as free software.
-
-This program was created by converting my Android Java source code into JavaScript with the assistance of Microsoft Edge’s Windows Copilot.
-
+This program was developed by converting my Java source code (intended for Android) to JavaScript with the help of Microsoft’s Edge Windows Copilot.  
+The high-precision 50-digit version was also converted using Windows Copilot.  
 Thank you, Microsoft!
 
-
-
-
-
 ---
 
-There are several typical factors that can cause the DKA method (Durand-Kerner-Aberth method) to fail to converge or to converge poorly. For someone well-versed in numerical analysis like Yoshifumi-san, the following points may be particularly noteworthy:
+According to Windows Copilot,  
+there are several common factors that cause the DKA method (Durand-Kerner-Aberth) to fail or struggle with convergence — likely of interest to someone with your expertise in numerical analysis
 
-⚠️ Common Causes of Non-Convergence or Poor Convergence
+⚠️ **Main Causes of Non-Convergence or Difficulty**
+- **Improper initial values:** DKA relies on Newton’s method, and without values close to the roots, convergence is slow or fails  
+- **Multiple or closely spaced roots:** These can cause instability or slow convergence due to mutual interaction of simultaneous root calculations  
+- **Extreme coefficient values:** Large disparities in scale affect radius estimation and convergence behavior  
+- **Inadequate iteration settings:** Loose error tolerance may misrepresent convergence; too tight settings require excessive computation  
+- **Rounding errors and precision limits:** Especially with complex numbers, rounding may lead to unstable convergence tests
 
-- **Inappropriate selection of initial values**  
-  Since the DKA method is based on the Newton method, convergence becomes difficult if the initial values are not close to the actual roots.  
-  Especially when multiple roots (duplicate solutions) exist, having initial values too close together can cause denominators to approach zero, leading to numerical instability.
-
-- **Presence of multiple or closely spaced roots**  
-  Because the DKA method simultaneously solves for all roots, closely spaced roots can strongly interact, slowing or even preventing convergence.
-
-- **Extreme values in polynomial coefficients**  
-  Large variations in coefficient scaling can lead to inaccurate radius estimation for initial values, thus affecting convergence.
-
-- **Inadequate iteration count or tolerance settings**  
-  If the tolerance is too large, it may appear to converge while lacking precision; if too small, an excessive number of iterations may be needed to achieve convergence.
-
-- **Numerical rounding errors and computational precision limits**  
-  Especially in complex number calculations, rounding errors tend to accumulate, destabilizing the convergence criteria.
-
-🛠️ Tips for Improvement
-
-- Using Aberth's initial values has been shown to significantly improve convergence behavior.
-
-- When dealing with closely spaced roots, combining with other methods (e.g. Jenkins-Traub algorithm or complex plane subdivision methods) may be helpful.
-
-- Scaling or normalizing the coefficients can improve numerical stability.
+🛠️ **Tips for Improvement**
+- Using Aberth’s initial values improves convergence significantly  
+- If roots are very close, hybrid methods like Jenkins-Traub or complex plane subdivision may help  
+- Scaling or normalizing coefficients enhances numerical stability
 
 ---
-
-
