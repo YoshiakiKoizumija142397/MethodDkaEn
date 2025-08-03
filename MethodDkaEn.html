@@ -1,359 +1,213 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>MethodDkaEn</title>
-
+    <title>MethodDkaEn 50-digit Precision</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.3.1/decimal.min.js"></script>
     <style>
-
         body {
-
             font-family: Arial, sans-serif;
-
         }
 
         .container {
-
-            max-width: 600px;
-
+            max-width: 700px;
             margin: 0 auto;
-
             padding: 20px;
-
             background-color: #f9f9f9;
-
             border-radius: 8px;
-
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
         }
 
         .input-field {
-
             margin-bottom: 10px;
-
         }
 
-        .input-field input {
-
-            width: 100%;
-
-            padding: 8px;
-
-            box-sizing: border-box;
-
-        }
+            .input-field input {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+            }
 
         .button {
-
             padding: 10px 20px;
-
             background-color: #007bff;
-
             color: white;
-
             border: none;
-
             border-radius: 4px;
-
             cursor: pointer;
-
+            margin-right: 10px;
         }
 
-        .button:hover {
-
-            background-color: #0056b3;
-
-        }
+            .button:hover {
+                background-color: #0056b3;
+            }
 
         .result {
-
-            margin-top: 20px;
-
+            margin-top: 10px;
             padding: 10px;
-
             background-color: #e9ecef;
-
             border-radius: 4px;
-
+            font-family: monospace;
         }
-
     </style>
-
 </head>
-
 <body>
-
     <div class="container">
-
-        <h1>MethodDkaEn</h1>
-
+        <h1>MethodDkaEn (50-digit Precision)</h1>
         <div class="input-field">
-
             <label for="maxDegree">Max Degree:</label>
-
             <input type="number" id="maxDegree" />
-
         </div>
-
         <button class="button" onclick="createFields()">Set Degree</button>
-
         <div id="coefficients"></div>
-
         <button class="button" onclick="calculate()">Start Calculation</button>
-
         <div id="results"></div>
-
     </div>
 
     <script>
-
-        let n;
-
-        let sa = [];
-
-        let sr = [];
-
-        let si = [];
-
-        let bSyuusoku = false;
-
-
-
-        function createFields() {
-
-            const maxDegree = document.getElementById('maxDegree').value;
-
-            n = parseInt(maxDegree);
-
-            const coefficientsDiv = document.getElementById('coefficients');
-
-            coefficientsDiv.innerHTML = '';
-
-
-
-            for (let i = 0; i <= n; i++) {
-
-                const inputField = document.createElement('div');
-
-                inputField.className = 'input-field';
-
-                inputField.innerHTML = `<label for="coefficient${i}">${n - i}coefficient:</label><input type="number" id="coefficient${i}" />`;
-
-                coefficientsDiv.appendChild(inputField);
-
+        class Complex {
+            constructor(re, im) {
+                this.re = new Decimal(re);
+                this.im = new Decimal(im);
             }
 
+            add(other) {
+                return new Complex(this.re.add(other.re), this.im.add(other.im));
+            }
+
+            sub(other) {
+                return new Complex(this.re.sub(other.re), this.im.sub(other.im));
+            }
+
+            mul(other) {
+                const re = this.re.mul(other.re).sub(this.im.mul(other.im));
+                const im = this.re.mul(other.im).add(this.im.mul(other.re));
+                return new Complex(re, im);
+            }
+
+            div(other) {
+                const denom = other.re.pow(2).add(other.im.pow(2));
+                const re = this.re.mul(other.re).add(this.im.mul(other.im)).div(denom);
+                const im = this.im.mul(other.re).sub(this.re.mul(other.im)).div(denom);
+                return new Complex(re, im);
+            }
+
+            toString() {
+                return `${this.re.toFixed(50)} + ${this.im.toFixed(50)}i`;
+            }
+
+            abs() {
+                return this.re.pow(2).add(this.im.pow(2)).sqrt();
+            }
         }
 
+        let n;
+        let coefficients = [];
+        let roots = [];
+        let bConverged = false;
 
+        function createFields() {
+            const maxDegree = document.getElementById('maxDegree').value;
+            n = parseInt(maxDegree);
+            const div = document.getElementById('coefficients');
+            div.innerHTML = '';
+            for (let i = 0; i <= n; i++) {
+                const input = document.createElement('div');
+                input.className = 'input-field';
+                input.innerHTML = `<label for="coef${i}">Coefficient of degree ${n - i}:</label><input type="text" id="coef${i}" />`;
+                div.appendChild(input);
+            }
+        }
 
         function calculate() {
-
+            coefficients = [];
             for (let i = 0; i <= n; i++) {
-
-                const coefficient = document.getElementById(`coefficient${i}`).value;
-
-                sa[i] = parseFloat(coefficient);
-
+                const value = document.getElementById(`coef${i}`).value.trim();
+                coefficients.push(new Decimal(value));
             }
 
-
-
-            if (n === 0) {
-
-                alert('Please set the coefficient of degree 0.');
-
+            if (coefficients[0].isZero()) {
+                alert('Leading coefficient must not be zero.');
                 return;
-
             }
-
-
 
             subroutine();
 
-
-
             const resultsDiv = document.getElementById('results');
-
             resultsDiv.innerHTML = '';
 
-
-
-            if (!bSyuusoku) {
-
+            if (!bConverged) {
                 alert('Convergence was not achieved.');
-
             } else {
-
-                for (let i = 1; i <= n; i++) {
-
-                    const result = document.createElement('div');
-
-                    result.className = 'result';
-
-                    result.innerText = `Solution${i}: Real Part ${sr[i]}, Imaginary part ${si[i]}`;
-
-                    resultsDiv.appendChild(result);
-
+                for (let i = 0; i < n; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'result';
+                    div.innerText = `Root ${i + 1}: ${roots[i].toString()}`;
+                    resultsDiv.appendChild(div);
                 }
-
             }
-
         }
-
-
 
         function subroutine() {
+            bConverged = false;
+            const maxIter = 100;
+            const epsilon = new Decimal('1e-49');
+            const pi = Decimal.acos(-1);
+            const scaledCoef = coefficients.map(c => c.div(coefficients[0]));
 
-            let sx = new Array(1000).fill(0);
-
-            let sy = new Array(1000).fill(0);
-
-            let se = 1e-325;
-
-            let m = 100;
-
-            let sp = Math.PI;
-
-            let sw = 0.0;
-
-
-
-            for (let i = 0; i <= n; i++) {
-
-                sa[i] = sa[i] / sa[0];
-
+            // Estimate radius
+            let radius = new Decimal(0);
+            for (let i = 1; i <= n; i++) {
+                const term = scaledCoef[i].abs().pow(new Decimal(1).div(i)).mul(n);
+                if (radius.lessThan(term)) radius = term;
             }
 
-
-
-            for (let i = 2; i <= n; i++) {
-
-                let sq = n * Math.pow(Math.abs(sa[i]), 1 / i);
-
-                if (sw < sq) sw = sq;
-
+            // Initialize roots in circle
+            roots = [];
+            for (let j = 0; j < n; j++) {
+                const angle = pi.mul(2 * j + 1).div(n);
+                const re = radius.mul(Decimal.cos(angle));
+                const im = radius.mul(Decimal.sin(angle));
+                roots.push(new Complex(re, im));
             }
 
+            for (let k = 0; k < maxIter; k++) {
+                let converged = true;
 
-
-            let sb = 2 * sp / n;
-
-            let sc = sp / (2 * n);
-
-
-
-            for (let j = 1; j <= n; j++) {
-
-                let st = sb * (j - 1) + sc;
-
-                sr[j] = sw * Math.cos(st);
-
-                si[j] = sw * Math.sin(st);
-
-            }
-
-
-
-            let bContinue;
-
-
-
-            for (let k = 1; k <= m; k++) {
-
-                bContinue = false;
-
-
-
-                for (let i = 1; i <= n; i++) {
-
-                    let s1 = 1.0;
-
-                    let s2 = 0.0;
-
-                    let s3 = 1.0;
-
-                    let s4 = 0.0;
-
-                    sb = sr[i];
-
-                    sc = si[i];
-
-
-
+                let newRoots = [];
+                for (let i = 0; i < n; i++) {
+                    // Evaluate polynomial
+                    let p = new Complex(scaledCoef[0], 0);
                     for (let j = 1; j <= n; j++) {
+                        p = p.mul(roots[i]).add(new Complex(scaledCoef[j], 0));
+                    }
 
-                        let s5 = s1 * sb - s2 * sc;
-
-                        s2 = s1 * sc + s2 * sb;
-
-                        s1 = s5 + sa[j];
-
-                        if (j !== i) {
-
-                            s5 = s3 * (sb - sr[j]) - s4 * (sc - si[j]);
-
-                            s4 = s3 * (sc - si[j]) + s4 * (sb - sr[j]);
-
-                            s3 = s5;
-
+                    // Denominator for DKA
+                    let d = new Complex(1, 0);
+                    for (let j = 0; j < n; j++) {
+                        if (i !== j) {
+                            d = d.mul(roots[i].sub(roots[j]));
                         }
-
                     }
 
+                    const correction = p.div(d);
+                    const updated = roots[i].sub(correction);
+                    newRoots[i] = updated;
 
-
-                    sw = s3 * s3 + s4 * s4;
-
-                    sx[i] = (s1 * s3 + s2 * s4) / sw;
-
-                    sy[i] = (s2 * s3 - s1 * s4) / sw;
-
-                    sr[i] = sr[i] - sx[i];
-
-                    si[i] = si[i] - sy[i];
-
-                }
-
-
-
-                for (let i = 1; i <= n; i++) {
-
-                    if (Math.abs(sx[i]) > se || Math.abs(sy[i]) > se) {
-
-                        bContinue = true;
-
+                    if (correction.abs().greaterThan(epsilon)) {
+                        converged = false;
                     }
-
                 }
 
+                roots = newRoots;
 
-
-                if (!bContinue) {
-
-                    bSyuusoku = true;
-
-                    alert('Convergence achieved');
-
+                if (converged) {
+                    bConverged = true;
+                    alert('Convergence achieved!');
                     return;
-
                 }
-
             }
-
-
-
-            bSyuusoku = false;
-
         }
-
     </script>
-
 </body>
-
 </html>
