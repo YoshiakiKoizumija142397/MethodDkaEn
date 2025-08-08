@@ -35,7 +35,7 @@ The author assumes no responsibility for any problems arising from use of this p
 Use it at your own risk and verify calculations yourself.  
 Thank you for reading the help file to the end!  
 I’m honored if this program proves useful to you.  
-Now upgraded to a fully Japanese-language version.
+Now upgraded to a fully English-language version.
 
 Finally, I extend gratitude to my mentors who taught me math and arithmetic, and the authors of numerical analysis books that helped shape this work.
 
