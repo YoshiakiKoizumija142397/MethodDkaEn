@@ -35,10 +35,18 @@
       margin-bottom: 10px;
       color: #000;
     }
-    p.desc {
-      color: #6c757d;
-      font-size: 0.95rem;
+    .desc-box {
+      background-color: #f1f3f5;
+      padding: 15px 20px;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary-color);
       margin-bottom: 25px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .desc-box ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
     }
     .form-group {
       margin-bottom: 20px;
@@ -109,7 +117,17 @@
 
 <div class="container">
   <h1>MethodDkaEn (Polynomial Solver & Factorization)</h1>
-  <p class="desc">High-precision solver using Durand-Kerner (DKA) method with Decimal.js (Up to Degree 200).</p>
+  
+  <!-- App Description Section -->
+  <div class="desc-box">
+    <strong>Overview & Features:</strong>
+    <p style="margin: 5px 0;">This application calculates all real and complex roots of polynomials up to degree 200 with ultra-high precision using pure JavaScript.</p>
+    <ul>
+      <li><strong>50-Digit High Precision:</strong> Powered by Decimal.js to prevent numerical underflow and overflow.</li>
+      <li><strong>Durand-Kerner (DKA) Algorithm:</strong> Simultaneously calculates all roots iteratively with auto-scaling.</li>
+      <li><strong>Bulk Input & Residual Display:</strong> Paste multiple coefficients at once and verify root accuracy via polynomial residual $|P(x)|$.</li>
+    </ul>
+  </div>
 
   <!-- Degree Input -->
   <div class="form-group">
