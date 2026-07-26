@@ -97,7 +97,7 @@
       padding: 15px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
-      max-height: 400px;
+      max-height: 450px;
       overflow-y: auto;
       font-family: monospace;
       white-space: pre-wrap;
@@ -138,7 +138,7 @@
   <!-- Output Format Selection -->
   <div class="mode-toggle">
     <strong>Display Mode:</strong>
-    <label><input type="radio" name="displayMode" value="roots" checked onchange="renderOutput()"> 50-Digit Roots</label>
+    <label><input type="radio" name="displayMode" value="roots" checked onchange="renderOutput()"> 50-Digit Roots & Residuals</label>
     <label><input type="radio" name="displayMode" value="factored" onchange="renderOutput()"> Factored Form</label>
   </div>
 
@@ -206,7 +206,7 @@
     }
   }
 
-  // Complex Number Helper for DKA Method
+  // Complex Number Helper
   class Complex {
     constructor(re, im) {
       this.re = new Decimal(re);
@@ -244,7 +244,7 @@
       }
     }
 
-    // Normalization (a_n must be 1)
+    // Normalization
     const lead = coeffs[0];
     if (lead.isZero()) {
       alert('Leading coefficient a_n cannot be zero.');
@@ -254,7 +254,7 @@
       coeffs[i] = coeffs[i].div(lead);
     }
 
-    // Initialize DKA Roots (Aberth/DKA Initial Values)
+    // Initialize DKA Roots
     let z = [];
     const radius = new Decimal(2);
     for (let i = 0; i < n; i++) {
@@ -270,13 +270,11 @@
       let maxChange = new Decimal(0);
 
       for (let i = 0; i < n; i++) {
-        // Evaluate Polynomial P(z_i)
         let pz = new Complex(coeffs[0], 0);
         for (let k = 1; k <= n; k++) {
           pz = pz.mul(z[i]).add(new Complex(coeffs[k], 0));
         }
 
-        // Product (z_i - z_j)
         let denom = new Complex(1, 0);
         for (let j = 0; j < n; j++) {
           if (i !== j) {
@@ -294,7 +292,16 @@
       if (maxChange.lt(new Decimal('1e-45'))) break;
     }
 
-    computedRoots = z;
+    // Compute residual |P(z_i)| for each root as an indicator of accuracy
+    computedRoots = z.map(root => {
+      let pz = new Complex(coeffs[0], 0);
+      for (let k = 1; k <= n; k++) {
+        pz = pz.mul(root).add(new Complex(coeffs[k], 0));
+      }
+      const residual = pz.re.pow(2).plus(pz.im.pow(2)).sqrt();
+      return { root: root, residual: residual };
+    });
+
     renderOutput();
   }
 
@@ -305,17 +312,22 @@
     const output = document.getElementById('output');
 
     if (mode === 'roots') {
-      let text = '=== Calculated Roots (50-Digit Precision) ===\n\n';
-      computedRoots.forEach((r, idx) => {
-        const reStr = r.re.toFixed(45);
-        const imAbs = r.im.abs().toFixed(45);
+      let text = '=== Calculated Roots (50-Digit Precision) & Residuals ===\n\n';
+      computedRoots.forEach((item, idx) => {
+        const r = item.root;
+        const reStr = r.re.toFixed(40);
+        const imAbs = r.im.abs().toFixed(40);
         const sign = r.im.gte(0) ? '+' : '-';
+        const resStr = item.residual.toExponential(4);
+
         text += `x_${idx + 1} = ${reStr} ${sign} ${imAbs}i\n`;
+        text += `     └ Residual |P(x)|: ${resStr}\n\n`;
       });
       output.textContent = text;
     } else {
       let text = '=== Factored Form (Rounded for Readability) ===\n\nP(x) = ';
-      computedRoots.forEach((r) => {
+      computedRoots.forEach((item) => {
+        const r = item.root;
         const re = parseFloat(r.re.toFixed(6));
         const im = parseFloat(r.im.toFixed(6));
 
