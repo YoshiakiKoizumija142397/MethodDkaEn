@@ -6,10 +6,9 @@ Powered by the **Durand-Kerner (DKA) method**, it combines **50-digit high-preci
 
 ---
 
-## 🌐 Official Links
+## 🌐 Live Demo
 
-* 🚀 **Live Web Application:** [https://YoshiakiKoizumija142397.github.io/MethodDkaEn/](https://YoshiakiKoizumija142397.github.io/MethodDkaEn/)
-* 📦 **GitHub Repository:** [https://github.com/YoshiakiKoizumija142397/MethodDkaEn](https://github.com/YoshiakiKoizumija142397/MethodDkaEn)
+* 🚀 **Web Application:** [https://YoshiakiKoizumija142397.github.io/MethodDkaEn/](https://YoshiakiKoizumija142397.github.io/MethodDkaEn/)
 
 ---
 
@@ -45,5 +44,18 @@ MethodDkaEn/
 1. Select or input the **Degree of Polynomial** ($n \le 200$).
 2. Enter coefficients manually or use the **Bulk Input** button to paste multiple coefficients at once.
 3. Click **Calculate** to find all real and complex roots with high precision.
+
+---
+
+## 👤 Author & Repository
+
+* **Developer:** [Yoshiaki Koizumi](https://github.com/YoshiakiKoizumija142397)
+* **GitHub Repository:** [https://github.com/YoshiakiKoizumija142397/MethodDkaEn](https://github.com/YoshiakiKoizumija142397/MethodDkaEn)
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](https://www.google.com/search?q=LICENSE).
 
 ```
