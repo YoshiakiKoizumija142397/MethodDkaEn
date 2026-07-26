@@ -1,108 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MethodDkaEn - High-Precision Polynomial Solver & Factorization Web App</title>
-    <style>
-        :root {
-            --primary-color: #0056b3;
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            width: 90%;
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        p.subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .features {
-            text-align: left;
-            margin: 2rem 0;
-            background: #eef5fc;
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-        .features ul {
-            margin: 0;
-            padding-left: 1.2rem;
-        }
-        .features li {
-            margin-bottom: 0.5rem;
-        }
-        .btn-container {
-            margin-top: 2rem;
-        }
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: #ffffff;
-            padding: 0.8rem 2rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
-        }
-        .btn:hover {
-            background-color: #003d80;
-        }
-        footer {
-            margin-top: 3rem;
-            font-size: 0.85rem;
-            color: #888;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MethodDkaEn - 200th-degree Polynomial Solver & Factorization</title>
+  <!-- Decimal.js for 50-digit high-precision arithmetic -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #212529;
+      --primary-color: #0d6efd;
+      --primary-hover: #0b5ed7;
+      --border-color: #dee2e6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #000;
+    }
+    p.desc {
+      color: #6c757d;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    input[type="number"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    textarea {
+      height: 100px;
+      font-family: monospace;
+      resize: vertical;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+    button.secondary {
+      background-color: #6c757d;
+    }
+    button.secondary:hover {
+      background-color: #5c636a;
+    }
+    .mode-toggle {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .results-box {
+      background-color: #f1f3f5;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>MethodDkaEn</h1>
-    <p class="subtitle">200th-Degree & 50-Digit High-Precision Polynomial Solver and Factorization Web App</p>
+  <h1>MethodDkaEn (Polynomial Solver & Factorization)</h1>
+  <p class="desc">High-precision solver using Durand-Kerner (DKA) method with Decimal.js (Up to Degree 200).</p>
 
-    <div class="features">
-        <h3>✨ Key Features</h3>
-        <ul>
-            <li><strong>Bulk Paste:</strong> Instantly paste spaces, line breaks, or comma-separated coefficients.</li>
-            <li><strong>Up to Degree 200:</strong> Built-in auto-scaling (normalization) for high-degree stability.</li>
-            <li><strong>50-Digit Precision:</strong> High-precision Decimal.js engine with instant factorization toggle.</li>
-            <li><strong>Offline Support:</strong> Runs completely inside your web browser with zero server setup required.</li>
-        </ul>
-    </div>
+  <!-- Degree Input -->
+  <div class="form-group">
+    <label for="degree">Polynomial Degree (n ≤ 200):</label>
+    <input type="number" id="degree" min="1" max="200" value="3" onchange="generateInputs()">
+  </div>
 
-    <div class="btn-container">
-        <a href="MethodDkaEn.html" class="btn">Launch Application</a>
-    </div>
+  <!-- Bulk Input -->
+  <div class="form-group">
+    <label for="bulkInput">Bulk Coefficients Input (Space, Comma, or Line-separated):</label>
+    <textarea id="bulkInput" placeholder="e.g., 1 -6 11 -6"></textarea>
+    <button type="button" class="secondary" onclick="applyBulkInput()" style="margin-top: 8px;">Apply Bulk Input</button>
+  </div>
 
-    <footer>
-        &copy; 2026 Yoshiaki Koizumi (YoshiakiKoizumija142397). MIT License.
-    </footer>
+  <!-- Dynamic Coefficients Inputs -->
+  <div class="form-group">
+    <label>Individual Coefficients (a_n * x^n + ... + a_0):</label>
+    <div id="coefficientsContainer"></div>
+  </div>
+
+  <!-- Actions -->
+  <div class="btn-group">
+    <button type="button" onclick="calculateRoots()">Calculate Roots</button>
+  </div>
+
+  <!-- Output Format Selection -->
+  <div class="mode-toggle">
+    <strong>Display Mode:</strong>
+    <label><input type="radio" name="displayMode" value="roots" checked onchange="renderOutput()"> 50-Digit Roots</label>
+    <label><input type="radio" name="displayMode" value="factored" onchange="renderOutput()"> Factored Form</label>
+  </div>
+
+  <!-- Results Output -->
+  <div class="results-box" id="output">Results will appear here...</div>
 </div>
+
+<script>
+  // Set precision to 50 decimal digits
+  Decimal.set({ precision: 50 });
+
+  let computedRoots = [];
+  let currentDegree = 0;
+
+  function generateInputs() {
+    const deg = parseInt(document.getElementById('degree').value) || 1;
+    currentDegree = Math.min(Math.max(deg, 1), 200);
+    document.getElementById('degree').value = currentDegree;
+
+    const container = document.getElementById('coefficientsContainer');
+    container.innerHTML = '';
+
+    for (let i = currentDegree; i >= 0; i--) {
+      const div = document.createElement('div');
+      div.style.display = 'flex';
+      div.style.alignItems = 'center';
+      div.style.gap = '10px';
+      div.style.marginBottom = '5px';
+
+      const label = document.createElement('span');
+      label.style.width = '60px';
+      label.textContent = `a_${i} (x^${i}):`;
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = `coeff_${i}`;
+      input.value = i === currentDegree ? '1' : '0';
+
+      div.appendChild(label);
+      div.appendChild(input);
+      container.appendChild(div);
+    }
+  }
+
+  function applyBulkInput() {
+    const rawText = document.getElementById('bulkInput').value;
+    const values = rawText.trim().split(/[\s,]+/).filter(v => v !== '');
+
+    if (values.length === 0) return;
+
+    const deg = values.length - 1;
+    if (deg < 1 || deg > 200) {
+      alert('Please enter between 2 and 201 coefficients (Degree 1 to 200).');
+      return;
+    }
+
+    document.getElementById('degree').value = deg;
+    generateInputs();
+
+    for (let i = deg; i >= 0; i--) {
+      const val = values[deg - i];
+      if (document.getElementById(`coeff_${i}`)) {
+        document.getElementById(`coeff_${i}`).value = val;
+      }
+    }
+  }
+
+  // Complex Number Helper for DKA Method
+  class Complex {
+    constructor(re, im) {
+      this.re = new Decimal(re);
+      this.im = new Decimal(im);
+    }
+
+    add(c) { return new Complex(this.re.plus(c.re), this.im.plus(c.im)); }
+    sub(c) { return new Complex(this.re.minus(c.re), this.im.minus(c.im)); }
+    mul(c) {
+      return new Complex(
+        this.re.times(c.re).minus(this.im.times(c.im)),
+        this.re.times(c.im).plus(this.im.times(c.re))
+      );
+    }
+    div(c) {
+      const denom = c.re.times(c.re).plus(c.im.times(c.im));
+      return new Complex(
+        this.re.times(c.re).plus(this.im.times(c.im)).div(denom),
+        this.im.times(c.re).minus(this.re.times(c.im)).div(denom)
+      );
+    }
+  }
+
+  function calculateRoots() {
+    const n = currentDegree;
+    let coeffs = [];
+
+    for (let i = n; i >= 0; i--) {
+      const val = document.getElementById(`coeff_${i}`).value;
+      try {
+        coeffs.push(new Decimal(val));
+      } catch (e) {
+        alert(`Invalid coefficient at a_${i}`);
+        return;
+      }
+    }
+
+    // Normalization (a_n must be 1)
+    const lead = coeffs[0];
+    if (lead.isZero()) {
+      alert('Leading coefficient a_n cannot be zero.');
+      return;
+    }
+    for (let i = 0; i <= n; i++) {
+      coeffs[i] = coeffs[i].div(lead);
+    }
+
+    // Initialize DKA Roots (Aberth/DKA Initial Values)
+    let z = [];
+    const radius = new Decimal(2);
+    for (let i = 0; i < n; i++) {
+      const angle = new Decimal(2).times(Decimal.acos(-1)).times(i).plus(0.5).div(n);
+      const re = radius.times(Decimal.cos(angle));
+      const im = radius.times(Decimal.sin(angle));
+      z.push(new Complex(re, im));
+    }
+
+    // Durand-Kerner Iteration
+    const maxIter = 200;
+    for (let iter = 0; iter < maxIter; iter++) {
+      let maxChange = new Decimal(0);
+
+      for (let i = 0; i < n; i++) {
+        // Evaluate Polynomial P(z_i)
+        let pz = new Complex(coeffs[0], 0);
+        for (let k = 1; k <= n; k++) {
+          pz = pz.mul(z[i]).add(new Complex(coeffs[k], 0));
+        }
+
+        // Product (z_i - z_j)
+        let denom = new Complex(1, 0);
+        for (let j = 0; j < n; j++) {
+          if (i !== j) {
+            denom = denom.mul(z[i].sub(z[j]));
+          }
+        }
+
+        const delta = pz.div(denom);
+        z[i] = z[i].sub(delta);
+
+        const change = delta.re.abs().plus(delta.im.abs());
+        if (change.gt(maxChange)) maxChange = change;
+      }
+
+      if (maxChange.lt(new Decimal('1e-45'))) break;
+    }
+
+    computedRoots = z;
+    renderOutput();
+  }
+
+  function renderOutput() {
+    if (computedRoots.length === 0) return;
+
+    const mode = document.querySelector('input[name="displayMode"]:checked').value;
+    const output = document.getElementById('output');
+
+    if (mode === 'roots') {
+      let text = '=== Calculated Roots (50-Digit Precision) ===\n\n';
+      computedRoots.forEach((r, idx) => {
+        const reStr = r.re.toFixed(45);
+        const imAbs = r.im.abs().toFixed(45);
+        const sign = r.im.gte(0) ? '+' : '-';
+        text += `x_${idx + 1} = ${reStr} ${sign} ${imAbs}i\n`;
+      });
+      output.textContent = text;
+    } else {
+      let text = '=== Factored Form (Rounded for Readability) ===\n\nP(x) = ';
+      computedRoots.forEach((r) => {
+        const re = parseFloat(r.re.toFixed(6));
+        const im = parseFloat(r.im.toFixed(6));
+
+        if (Math.abs(im) < 1e-5) {
+          const sign = re >= 0 ? '-' : '+';
+          text += `(x ${sign} ${Math.abs(re)})`;
+        } else {
+          const sign = im >= 0 ? '-' : '+';
+          text += `(x - (${re} ${sign} ${Math.abs(im)}i))`;
+        }
+      });
+      output.textContent = text;
+    }
+  }
+
+  // Initialize on load
+  window.onload = generateInputs;
+</script>
 
 </body>
 </html>
